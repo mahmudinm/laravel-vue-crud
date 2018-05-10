@@ -21,6 +21,16 @@
             </div>
           </div>
 
+          <!-- Price -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label text-md-right">Image</label>
+            <div class="col-md-7">
+              <!-- <input v-model="form.image" :class="{ 'is-invalid': form.errors.has('image') }" class="form-control" type="file" name="image"> -->
+              <input type="file" name="image" :class="{ 'is-invalid': form.errors.has('image') }" class="form-control" @change="selectFile">
+              <has-error :form="form" field="image"/>
+            </div>
+          </div>
+
           <!-- Description -->
           <div class="form-group row">
             <label class="col-md-3 col-form-label text-md-right">Description</label>
@@ -60,12 +70,23 @@ export default {
     form: new Form({
       name: '',
       price: '',
+      image: '',
       description: ''
     })
   }),
   methods: {
+    selectFile(e) {      
+      var fileReader = new FileReader()
+      
+      fileReader.readAsDataURL(e.target.files[0])
+
+      fileReader.onload = (e) => {
+          this.form.image = e.target.result
+      }
+    },
     async create() {
       const data = await this.form.post('/api/items');
+
       this.$router.push({ name: 'items' })
     }
   }

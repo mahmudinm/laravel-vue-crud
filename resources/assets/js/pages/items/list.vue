@@ -12,6 +12,7 @@
           <tr>
             <th>#ID</th>
             <th>Name</th>
+            <th>Image</th>
             <th>Price</th>
             <th>Description</th>
             <th>Options</th>
@@ -21,6 +22,9 @@
           <tr v-for="(item, index) in items.data">
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
+            <td>
+              <img :src="'http://localhost:8000/image/' + item.image" class="img-fluid">
+            </td>
             <td>{{ item.price }}</td>
             <td>{{ item.description }}</td>
             <td>
