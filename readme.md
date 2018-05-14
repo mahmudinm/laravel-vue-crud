@@ -8,5 +8,6 @@
 
 # Credit To
 [Laravel Vue Starter](https://github.com/cretueusebiu/laravel-vue-spa)
+
 [Laravel Vue Paginate](https://github.com/gilbitron/laravel-vue-pagination)
     
