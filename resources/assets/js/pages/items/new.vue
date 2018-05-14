@@ -21,11 +21,10 @@
             </div>
           </div>
 
-          <!-- Price -->
+          <!-- Image -->
           <div class="form-group row">
             <label class="col-md-3 col-form-label text-md-right">Image</label>
             <div class="col-md-7">
-              <!-- <input v-model="form.image" :class="{ 'is-invalid': form.errors.has('image') }" class="form-control" type="file" name="image"> -->
               <input type="file" name="image" :class="{ 'is-invalid': form.errors.has('image') }" class="form-control" @change="selectFile">
               <has-error :form="form" field="image"/>
             </div>

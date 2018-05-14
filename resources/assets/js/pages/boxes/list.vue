@@ -10,22 +10,22 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>#ID</th>
-            <th>Name</th>
-            <th>Weight</th>
-            <th>Items Name</th>
-            <th>Options</th>
+            <td>#</td>
+            <td>Name</td>
+            <td>Weight</td>
+            <td>Items Name</td>
+            <td>Options</td>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(box, index) in boxes">
+          <tr v-for="(box, index) in boxes.data">
             <td>{{ box.id }}</td>
             <td>{{ box.name }}</td>
-            <td>{{ box.weight }} </td>
-            <td>{{ box.items.name }} </td>
+            <td>{{ box.weight }}</td>
+            <td>{{ box.items.name }}</td>
             <td>
               <router-link :to="{ name: 'boxes.edit', params: { id: box.id } }" class="btn btn-info btn-sm">Edit</router-link>
-              <button @click="deleteItem(index, box.id)" class="btn btn-danger btn-sm">Delete</button>
+              <button @click="deleteItem(index, box.id)" class="btn btn-danger btn-sm">Delete</button>            
             </td>
           </tr>
         </tbody>
@@ -48,7 +48,6 @@ export default {
   },
   async mounted() {
     const data = await axios.get('/api/boxes');
-    // console.log(data.items);
     this.boxes = data.data;
   },
   methods: {

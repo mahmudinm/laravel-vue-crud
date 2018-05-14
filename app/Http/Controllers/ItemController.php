@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use File;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -12,10 +13,14 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $item = Item::paginate();
-        return response()->json($item);
+        $q = $request->get('q');
+        $items = Item::where('name', 'LIKE', '%'.$q.'%')
+            ->orWhere('price', 'LIKE', '%'.$q.'%')
+            ->orWhere('description', 'LIKE', '%'.$q.'%')
+            ->orderBy('name')->paginate(10);
+        return response()->json($items);
     }
 
     /**
@@ -32,21 +37,25 @@ class ItemController extends Controller
             // 'image' => 'mimes:jpg,jpeg,png|max:10240',
             'description' => 'required'
         ]);
-
-        $exploded = explode(',', $request->image);
-        $decoded = base64_decode($exploded[1]);
-        if (str_contains($exploded[0], 'jpeg')) {
-            $extension = 'jpg';
-        } else {
-            $extension = 'png'; 
+        
+        $existFile = '';
+        if ($request->image) {
+            $exploded = explode(',', $request->image);
+            $decoded = base64_decode($exploded[1]);
+            if (str_contains($exploded[0], 'jpeg')) {
+                $extension = 'jpg';
+            } else {
+                $extension = 'png'; 
+            }
+            $fileName = str_random().'.'.$extension;
+            $path = public_path().'/image/'.$fileName;
+            file_put_contents($path, $decoded);            
+            $existFile .= $fileName;
         }
-        $fileName = str_random().'.'.$extension;
-        $path = public_path().'/image/'.$fileName;
-        file_put_contents($path, $decoded);
 
         $item = new Item;
         $item->create($request->except('image') + [
-            'image' => $fileName
+            'image' => $existFile
         ]);
     }
 
@@ -76,7 +85,39 @@ class ItemController extends Controller
             'description' => 'required'
         ]);
 
-        $item->update($request->all());
+
+        $exploded = explode(',', $request->image);
+        if (array_key_exists(1, $exploded)) {
+            // Komen Bagian ini jika file sebelumnya tidak mau di hapus
+            if ($item->image) {
+                $itemImage = public_path("image/{$item->image}"); // get previous image from folder
+                if (File::exists($itemImage)) { // unlink or remove previous image from folder
+                    unlink($itemImage);
+                }            
+            }
+
+            $exploded = explode(',', $request->image);
+            $decoded = base64_decode($exploded[1]);
+            if (str_contains($exploded[0], 'jpeg')) {
+                $extension = 'jpg';
+            } else {
+                $extension = 'png'; 
+            }
+            $fileName = str_random().'.'.$extension;
+            $path = public_path().'/image/'.$fileName;
+            file_put_contents($path, $decoded);            
+
+            $item->image = $fileName;
+        }
+
+        $item->name = $request->name;
+        $item->price = $request->price;
+        $item->save();
+
+        // $item->name = $request->name;
+        // $item->update($request->except('image') + [
+        //     'image' => $fileName
+        // ]);
     }
 
     /**

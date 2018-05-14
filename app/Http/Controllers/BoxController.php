@@ -15,7 +15,7 @@ class BoxController extends Controller
      */
     public function index()
     {
-        $boxes = Box::orderBy('id', 'DESC')->get();
+        $boxes = Box::orderBy('id', 'DESC')->paginate(10);
         $boxes->load('items');
         return response()->json($boxes);
     }

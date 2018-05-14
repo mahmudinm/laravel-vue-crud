@@ -16,10 +16,12 @@
     "@fortawesome/fontawesome-free-regular": "^5.0.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/vue-fontawesome": "^0.0.22",
+    "accounting": "^0.4.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.0.0",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
+    "moment": "^2.22.1",
     "popper.js": "^1.14.1",
     "sweetalert2": "^7.15.1",
     "vform": "^1.0.0",
@@ -27,6 +29,8 @@
     "vue-i18n": "^7.6.0",
     "vue-meta": "^1.4.4",
     "vue-router": "^3.0.1",
+    "vue2-datatable-component": "^2.3.0",
+    "vuetable-2": "^1.7.5",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },
@@ -38,6 +42,7 @@
     "cross-env": "^5.1.4",
     "laravel-mix": "^2.1.1",
     "vue-template-compiler": "^2.5.16",
+    "vuetable-2": "^1.7.5",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }

@@ -7,6 +7,9 @@
     <br>
     <br>
     <card :title="'List Item'">
+      <form @submit.prevent="onSearch">
+        <input type="text" class="form-control" placeholder="Search..." v-model="query">
+      </form>
       <table class="table table-hover">
         <thead>
           <tr>
@@ -23,7 +26,7 @@
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
             <td>
-              <img :src="'http://localhost:8000/image/' + item.image" class="img-fluid">
+              <img v-if="item.image" :src="'http://localhost:8000/image/' + item.image" style="width:80px;height:80px;object-fit: cover;">
             </td>
             <td>{{ item.price }}</td>
             <td>{{ item.description }}</td>
@@ -34,7 +37,7 @@
           </tr>
         </tbody>
       </table>
-      <pagination :data="items" @pagination-change-page="getResults"></pagination>
+      <pagination class="float-right" :data="items" @pagination-change-page="getResults"></pagination>
     </card>    
   </div>
 </template>
@@ -50,7 +53,8 @@ export default {
   middleware: 'auth',
   data () {
     return {
-      items:{}
+      items:{},
+      query:'',
     };
   },
   components: {
@@ -64,17 +68,18 @@ export default {
   },
   methods: {
     async getResults(page = 1) {
-      // const data = axios.get('/api/items?page=' + page)
-      // console.log(data)
-      // this.items = data;
-
-      axios.get('/api/items?page=' + page)
-        .then(response => {
-          this.items = response.data;
-          // console.log(response)
-        });
+      const response = await axios.get('/api/items?page=' + page)
+      this.items = response.data;
+        // .then(response => {
+        //   this.items = response.data;
+        // });
     },    
-    async deleteItem (index, someParam) {
+    async onSearch() {
+      // console.log(this.query);
+      const response = await axios.get('/api/items?q=' + this.query)
+      this.items = response.data;
+    },
+    async deleteItem (index, itemsID) {
       // this.$delete(this.items, index);
       // const data = await axios.delete('/api/items/' + someParam);      
       // const data = confirm('are you sure ?');
@@ -94,8 +99,9 @@ export default {
           'Your file has been deleted.',
           'success'
         )
-        await axios.delete('/api/items/' + someParam);
-        this.$delete(this.items, index);
+        await axios.delete('/api/items/' + itemsID);
+        this.$delete(this.items.data, index);
+        // this.getResults();
       }
     }
   }
