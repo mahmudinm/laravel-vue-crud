@@ -1,4 +1,5 @@
 - composer install / update
+- npm install
 - duplicate .env.example to .env
 - change your config database
 - php artisan key:generate
