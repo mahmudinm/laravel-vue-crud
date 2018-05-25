@@ -40,7 +40,6 @@ import swal from 'sweetalert2';
 
 export default {
   name: 'List',
-  middleware: 'admin',
   data () {
     return {
       boxes:{}

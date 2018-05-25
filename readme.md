@@ -3,8 +3,9 @@
 - duplicate .env.example to .env
 - change your config database
 - php artisan key:generate & php artisan jwt:secret
-=
 - php artisan migrate 
+- npm run watch
+- php artisan serve
 
 # Credit To
 [Laravel Vue Starter](https://github.com/cretueusebiu/laravel-vue-spa)
