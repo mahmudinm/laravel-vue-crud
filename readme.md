@@ -7,8 +7,10 @@
 - npm run watch
 - php artisan serve
 
-# Credit To
+# Credits To
 [Laravel Vue Starter](https://github.com/cretueusebiu/laravel-vue-spa)
 
 [Laravel Vue Paginate](https://github.com/gilbitron/laravel-vue-pagination)
+
+[Laravel Vue Server Validate (Vform)](https://github.com/cretueusebiu/vform)
     
